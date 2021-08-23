@@ -126,7 +126,7 @@ ui <- list(
         #### Survival Rate Page ----
         tabItem(
           tabName = "survivalRate",
-          h2("Survial Rate"),
+          h2("Survival Rate"),
           p("The survival rate is the percentage of individuals still alive at
             a certain moment in time. Here, we can visualize the survival rate
             (vertical axis) of individuals in each country by sex at different

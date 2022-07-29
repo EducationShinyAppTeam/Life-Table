@@ -61,7 +61,7 @@ ui <- list(
       width = 250,
       sidebarMenu(
         id = "pages",
-        menuItem("Overview", tabName = "overview",icon = icon("dashboard")),
+        menuItem("Overview", tabName = "overview",icon = icon("tachometer-alt")),
         menuItem("Survival Rate", tabName = "survivalRate", icon = icon("wpexplorer")),
         menuItem("Static Pop. Pyramids", tabName = "staticPry", icon = icon("wpexplorer")),
         menuItem("Time & Pop. Pyramids", tabName = "timePry", icon = icon("wpexplorer")),
@@ -116,11 +116,11 @@ ui <- list(
           h2("Acknowledgements"),
           p("This app was developed and coded by Yuqing Lei in 2019 with the
             support of funding provided by Dr. Stephen Schaeffer. The app was
-            updated in 2021 by Dr. Neil J. Hatfield.",
+            updated in 2021 by Dr. Neil J. Hatfield and was updated in 2022 by Jing Fu",
             br(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 7/7/2021 by NJH.")
+            div(class = "updated", "Last Update: 7/18/2022 by JF.")
           )
         ),
         #### Survival Rate Page ----
@@ -132,7 +132,7 @@ ui <- list(
             (vertical axis) of individuals in each country by sex at different
             ages (horizontal axis). For example, approximately 75% of females
             from the United States survive to age 75."
-            ),
+          ),
           p("Which sex has better survival rates overall? Which country has
             better overall survival rates? Do your answers change when you look
             at country and sex simultaneously?"),
@@ -451,8 +451,8 @@ server <- function(input, output, session) {
         text = "This app explores survival rates, population pyramids, and the
         fecundity rates of three different countries."
       )
-  })
-
+    })
+  
   ## Go Button ----
   observeEvent(
     eventExpr = input$go,
@@ -462,8 +462,8 @@ server <- function(input, output, session) {
         inputId = "pages",
         selected = "survivalRate"
       )
-  })
-
+    })
+  
   ## Survival Rate Plot ----
   observeEvent(
     eventExpr = input$survivalSelection,
@@ -518,7 +518,7 @@ server <- function(input, output, session) {
     ignoreNULL = FALSE,
     ignoreInit = FALSE
   )
-
+  
   ## Upper Country Pyramid ----
   observeEvent(
     eventExpr = input$upperCountry,
@@ -586,7 +586,7 @@ server <- function(input, output, session) {
       )
     }
   )
-
+  
   ## Lower Country Pyramid ----
   observeEvent(
     eventExpr = input$lowerCountry,
@@ -654,7 +654,7 @@ server <- function(input, output, session) {
       )
     }
   )
-
+  
   ## Country & Sex Cohort Pyramid ----
   observeEvent(
     eventExpr = c(input$cohortLeft, input$cohortRight),
@@ -718,7 +718,7 @@ server <- function(input, output, session) {
       )
     }
   )
-
+  
   ## Time Population Pyramid ----
   ### Get Data Frame
   timePryData <- eventReactive(
@@ -727,11 +727,12 @@ server <- function(input, output, session) {
       if (input$actualCountry == "United States") {
         usTimePyramid
       } else {
-        ukTimePyramid
+        ## wrong column name
+        ukTimePyramid<-rename(ukTimePyramid, female=male,male=female)
       }
     }
   )
-
+  
   ### Update slider ----
   observeEvent(
     eventExpr = input$actualCountry,
@@ -744,7 +745,7 @@ server <- function(input, output, session) {
       )
     }
   )
-
+  
   ### Create Time Plot ----
   observeEvent(
     eventExpr = c(input$actualCountry, input$yearInterval),
@@ -752,8 +753,23 @@ server <- function(input, output, session) {
       output$timePyramid <- renderCachedPlot(
         cacheKeyExpr = {list(input$actualCountry, input$yearInterval)},
         expr = {
+          scaley<-if(input$actualCountry == "United Kingdom"){
+            scale_y_continuous(
+              limits = c(-1e6, 1e6),
+              expand = expansion(mult =0, add = 0),
+              breaks = seq.int(from = -1e6, to = 1e6, by = 5e5),
+              labels = c("1mil", "0.5mil", "0", "0.5mil", "1mil"))}else{
+                scale_y_continuous(
+                  limits = c(-4e6, 4e6),
+                  expand = expansion(mult =0, add = 0),
+                  breaks = seq.int(from = -4e6, to = 4e6, by = 5e5),
+                  labels = c("4mil","3.5mil","3mil","2.5mil", "2mil", "1.5mil", "1mil", "0.5mil", "0",
+                             "0.5mil", "1mil", "1.5mil", "2mil", "2.5mil","3mil","3.5mil","4mil")
+                )
+              }
           timePryData() %>%
             filter(year == input$yearInterval) %>%
+            na.omit() %>%
             ggplot(
               mapping = aes(x = age)
             ) +
@@ -770,7 +786,7 @@ server <- function(input, output, session) {
             coord_flip() +
             theme_bw() +
             ylab("Population") +
-            xlab("Age (years)") +
+            xlab("Age* (years)") +
             labs(
               title = paste(input$actualCountry, "Population Pyramid for",
                             input$yearInterval),
@@ -780,24 +796,17 @@ server <- function(input, output, session) {
               text = element_text(size = 18),
             ) +
             scale_x_continuous(
-              limits = c(0, 85),
               expand = expansion(mult = 0, add = c(0,1)),
               breaks = seq.int(from = 0, to = 100, by = 5),
               minor_breaks = NULL
             ) +
-            scale_y_continuous(
-              limits = c(-2.5e6, 2.5e6),
-              expand = expansion(mult = 0, add = 0),
-              breaks = seq.int(from = -2.5e6, to = 2.5e6, by = 5e5),
-              labels = c("2.5mil", "2mil", "1.5mil", "1mil", "0.5mil", "0",
-                         "0.5mil", "1mil", "1.5mil", "2mil", "2.5mil")
-            )
+            scaley
         },
         alt = paste(input$actualCountry, "Population Pyramid for", input$timeInterval)
       )
     }
   )
-
+  
   ## Fecundity Rate Plot ----
   observeEvent(
     eventExpr = input$fecundityCountry,

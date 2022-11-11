@@ -52,7 +52,7 @@ ui <- list(
       tags$li(
         class = "dropdown",
         tags$a(href = "https://shinyapps.science.psu.edu/",
-               icon("home")
+               icon("house")
         )
       )
     ),
@@ -61,7 +61,7 @@ ui <- list(
       width = 250,
       sidebarMenu(
         id = "pages",
-        menuItem("Overview", tabName = "overview",icon = icon("tachometer-alt")),
+        menuItem("Overview", tabName = "overview",icon = icon("gauge-high")),
         menuItem("Survival Rate", tabName = "survivalRate", icon = icon("wpexplorer")),
         menuItem("Static Pop. Pyramids", tabName = "staticPry", icon = icon("wpexplorer")),
         menuItem("Time & Pop. Pyramids", tabName = "timePry", icon = icon("wpexplorer")),

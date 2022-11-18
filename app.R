@@ -24,6 +24,12 @@ countryColors <- c(
   "China" = psuPalette[7]
 )
 
+countryLyt<-c(
+  "United Kingdom" = "solid",
+  "United States" = "longdash",
+  "China" = "twodash"
+)
+
 fixedLines <- c(
   "UK-Males" = "solid",
   "UK-Females" = "longdash",
@@ -120,7 +126,7 @@ ui <- list(
             br(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 7/18/2022 by JF.")
+            div(class = "updated", "Last Update: 11/17/2022 by JF.")
           )
         ),
         #### Survival Rate Page ----
@@ -498,7 +504,7 @@ server <- function(input, output, session) {
             ) +
             theme(
               text = element_text(size = 18),
-              legend.position = c(0.15, 0.35)
+              legend.position = "bottom"
             ) +
             scale_y_continuous(
               expand = expansion(mult = c(0, 0.05), add = 0)
@@ -510,7 +516,8 @@ server <- function(input, output, session) {
             scale_linetype_manual(
               name = "Country & Sex",
               values = fixedLines
-            )
+            ) +
+            theme(legend.key.size = unit(2,"cm"))
         },
         alt = "The survival rates at each age for selected countries and sexes"
       )
@@ -828,7 +835,7 @@ server <- function(input, output, session) {
               mapping = aes(
                 x = age,
                 y = fertility,
-                color = country,
+                colour = country,
                 linetype = country
               )
             ) +
@@ -854,7 +861,11 @@ server <- function(input, output, session) {
             ) +
             scale_color_manual(
               values = countryColors
-            )
+            ) +
+            scale_linetype_manual(
+              values = countryLyt
+            ) +
+            theme(legend.key.size = unit(2,"cm"))
         },
         alt = "Fecundity rate per 1000 woment for selected countries"
       )

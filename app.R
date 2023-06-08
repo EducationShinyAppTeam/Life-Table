@@ -9,6 +9,8 @@ library(shinycssloaders)
 library(dplyr)
 
 # Global Constants, Functions, and Data ----
+load(file = "allData.RData")
+
 fixedColors <- c(
   "UK-Males" = psuPalette[1],
   "UK-Females" = psuPalette[2],
@@ -39,9 +41,6 @@ fixedLines <- c(
   "China-Females" = "twodash"
 )
 
-load(file = "allData.RData")
-
-
 # Define UI for App ----
 ui <- list(
   dashboardPage(
@@ -57,8 +56,7 @@ ui <- list(
       ),
       tags$li(
         class = "dropdown",
-        tags$a(href = "https://shinyapps.science.psu.edu/",
-               icon("house")
+        tags$a(href = "https://shinyapps.science.psu.edu/", icon("house")
         )
       )
     ),
@@ -112,7 +110,7 @@ ui <- list(
             bsButton(
               inputId = "go",
               label = "Survival Rate",
-              icon = icon("wpexplorer"),
+              icon = icon("bolt"),
               size = "large",
               style = "default"
             )
@@ -124,6 +122,10 @@ ui <- list(
             support of funding provided by Dr. Stephen Schaeffer. The app was
             updated in 2021 by Dr. Neil J. Hatfield and was updated in 2022 by Jing Fu",
             br(),
+            br(),
+            "Cite this app as:",
+            br(),
+            citeApp(),
             br(),
             br(),
             div(class = "updated", "Last Update: 11/17/2022 by JF.")
@@ -274,7 +276,6 @@ ui <- list(
         #### Time Population Pyramids ----
         tabItem(
           tabName = "timePry",
-          ### ISSUE move into a Single Page
           h2("Time and Population Pyramids"),
           p("Connecting population pyramids with time allows us to explore changes
             in a country's population. This allows us to see when there might be
@@ -325,7 +326,9 @@ ui <- list(
             A country's fecundity rate refers to the number of new children born
             in a year. Here, we've shown each country's fecundity rate as the
             number of children born per 1,000 women plotted against the age of
-            the mother."),
+            the mother"),
+          p("How does the fecundity rate differ between each country? What might 
+            explain these differences?"),
           fluidRow(
             column(
               width = 4,
@@ -454,10 +457,11 @@ server <- function(input, output, session) {
         session = session,
         title = "Instructions",
         type = "info",
-        text = "This app explores survival rates, population pyramids, and the
-        fecundity rates of three different countries."
+        text = "Click through each tab on the left to view the survival rates, 
+        population pyramids, and the fecundity rates of three different countries."
       )
-    })
+    }
+  )
   
   ## Go Button ----
   observeEvent(
@@ -468,7 +472,8 @@ server <- function(input, output, session) {
         inputId = "pages",
         selected = "survivalRate"
       )
-    })
+    }
+  )
   
   ## Survival Rate Plot ----
   observeEvent(
@@ -494,11 +499,11 @@ server <- function(input, output, session) {
                 linetype = country.sex)
             ) +
             geom_line(
-              size = 2
+              linewidth = 2
             ) +
             theme_bw() +
-            xlab("Age (years)") +
             ylab("Survival Rate") +
+            xlab("Age (years)") +
             labs(
               title = "Survival Rates by Age for Country and Sex"
             ) +
@@ -589,7 +594,7 @@ server <- function(input, output, session) {
               values = fixedColors
             )
         },
-        alt = paste("Population Pyramids for", input$upperCountry)
+        alt = paste("Population Pyramids of both genders for", input$upperCountry)
       )
     }
   )
@@ -657,7 +662,7 @@ server <- function(input, output, session) {
               values = fixedColors
             )
         },
-        alt = paste("Population Pyramids for", input$lowerCountry)
+        alt = paste("Population Pyramids of both genders for", input$lowerCountry)
       )
     }
   )
@@ -793,13 +798,17 @@ server <- function(input, output, session) {
             coord_flip() +
             theme_bw() +
             ylab("Population") +
-            xlab("Age* (years)") +
+            xlab("Age (years)") +
             labs(
               title = paste(input$actualCountry, "Population Pyramid for",
                             input$yearInterval),
               caption = "Blue is Males, Red is Females"
             ) +
             theme(
+              axis.text.x = element_text(
+                angle = 25, 
+                vjust = 0.5, 
+                hjust = 1),
               text = element_text(size = 18),
             ) +
             scale_x_continuous(
@@ -840,7 +849,7 @@ server <- function(input, output, session) {
               )
             ) +
             geom_path(
-              size = 2,
+              linewidth = 2,
               na.rm = TRUE
             ) +
             theme_bw() +
@@ -867,7 +876,7 @@ server <- function(input, output, session) {
             ) +
             theme(legend.key.size = unit(2,"cm"))
         },
-        alt = "Fecundity rate per 1000 woment for selected countries"
+        alt = "Fecundity rate per 1000 women for selected countries"
       )
     },
     ignoreNULL = FALSE

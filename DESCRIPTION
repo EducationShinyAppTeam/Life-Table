@@ -10,7 +10,7 @@ Authors@R: c(
 Chapter: Biology
 Description: In this app, you will explore various Life Tables for three different countries.
 LearningObjectives: c(
-    "The student will learn will to assess life tables for various countries."  )
+    "The student will learn will to assess life tables for various countries." )
 DisplayMode: Normal
 URL: https://psu-eberly.shinyapps.io/Life_Table
 BugReports: https://github.com/EducationShinyAppTeam/Life_Table/issues

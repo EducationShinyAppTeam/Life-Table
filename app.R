@@ -23,10 +23,10 @@ fixedColors <- c(
 countryColors <- c(
   "United Kingdom" = psuPalette[2],
   "United States" = psuPalette[4],
-  "China" = psuPalette[7]
+  "China" = psuPalette[6]
 )
 
-countryLyt<-c(
+countryLyt <- c(
   "United Kingdom" = "solid",
   "United States" = "longdash",
   "China" = "twodash"
@@ -67,8 +67,8 @@ ui <- list(
         id = "pages",
         menuItem("Overview", tabName = "overview",icon = icon("gauge-high")),
         menuItem("Survival Rate", tabName = "survivalRate", icon = icon("wpexplorer")),
-        menuItem("Static Pop. Pyramids", tabName = "staticPry", icon = icon("wpexplorer")),
-        menuItem("Time & Pop. Pyramids", tabName = "timePry", icon = icon("wpexplorer")),
+        menuItem("Static Pop. Pyramids", tabName = "staticPyr", icon = icon("wpexplorer")),
+        menuItem("Time & Pop. Pyramids", tabName = "timePyr", icon = icon("wpexplorer")),
         menuItem("Fecundity Rate", tabName = "fecundityRate", icon = icon("wpexplorer")),
         menuItem("References", tabName = "references", icon = icon("leanpub"))
       ),
@@ -172,7 +172,7 @@ ui <- list(
         ),
         #### Static Pyramid Page----
         tabItem(
-          tabName = "staticPry",
+          tabName = "staticPyr",
           h2("Static Population Pyramids"),
           p("Population pyramids are common visualizations for life data. They
             are composed of two histograms, breaking a countries population into
@@ -184,7 +184,7 @@ ui <- list(
             tabPanel(
               title = "Country to Country",
               br(),
-              p("Compare each country's population pryamid to the other countries.
+              p("Compare each country's population pyramid to the other countries.
                 What do you notice?"),
               fluidRow(
                 column(
@@ -227,7 +227,7 @@ ui <- list(
               title = "Country & Sex Comparisons",
               br(),
               p("Population pyramids can also be mixed and matched across countries
-                and sex. Create various pryamids to compare the different pairings
+                and sex. Create various pyramids to compare the different pairings
                 of country and sex. What do you notice?"),
               fluidRow(
                 column(
@@ -275,7 +275,7 @@ ui <- list(
         ),
         #### Time Population Pyramids ----
         tabItem(
-          tabName = "timePry",
+          tabName = "timePyr",
           h2("Time and Population Pyramids"),
           p("Connecting population pyramids with time allows us to explore changes
             in a country's population. This allows us to see when there might be
@@ -733,14 +733,14 @@ server <- function(input, output, session) {
   
   ## Time Population Pyramid ----
   ### Get Data Frame
-  timePryData <- eventReactive(
+  timePyrData <- eventReactive(
     eventExpr = input$actualCountry,
     valueExpr = {
       if (input$actualCountry == "United States") {
         usTimePyramid
       } else {
         ## wrong column name
-        ukTimePyramid<-rename(ukTimePyramid, female=male,male=female)
+        ukTimePyramid <- rename(ukTimePyramid, female = male,male = female)
       }
     }
   )
@@ -751,9 +751,9 @@ server <- function(input, output, session) {
     handlerExpr = {
       updateSliderInput(
         inputId = "yearInterval",
-        min = min(timePryData()$year),
-        max = max(timePryData()$year),
-        value = min(timePryData()$year)
+        min = min(timePyrData()$year),
+        max = max(timePyrData()$year),
+        value = min(timePyrData()$year)
       )
     }
   )
@@ -765,21 +765,21 @@ server <- function(input, output, session) {
       output$timePyramid <- renderCachedPlot(
         cacheKeyExpr = {list(input$actualCountry, input$yearInterval)},
         expr = {
-          scaley<-if(input$actualCountry == "United Kingdom"){
+          scaley <- if (input$actualCountry == "United Kingdom") {
             scale_y_continuous(
               limits = c(-1e6, 1e6),
-              expand = expansion(mult =0, add = 0),
+              expand = expansion(mult = 0 , add = 0),
               breaks = seq.int(from = -1e6, to = 1e6, by = 5e5),
               labels = c("1mil", "0.5mil", "0", "0.5mil", "1mil"))}else{
                 scale_y_continuous(
                   limits = c(-4e6, 4e6),
-                  expand = expansion(mult =0, add = 0),
+                  expand = expansion(mult = 0, add = 0),
                   breaks = seq.int(from = -4e6, to = 4e6, by = 5e5),
                   labels = c("4mil","3.5mil","3mil","2.5mil", "2mil", "1.5mil", "1mil", "0.5mil", "0",
                              "0.5mil", "1mil", "1.5mil", "2mil", "2.5mil","3mil","3.5mil","4mil")
                 )
               }
-          timePryData() %>%
+          timePyrData() %>%
             filter(year == input$yearInterval) %>%
             na.omit() %>%
             ggplot(
@@ -805,11 +805,9 @@ server <- function(input, output, session) {
               caption = "Blue is Males, Red is Females"
             ) +
             theme(
-              axis.text.x = element_text(
-                angle = 25, 
-                vjust = 0.5, 
-                hjust = 1),
+              axis.text.x = element_text(angle = 20, vjust = 0.5, hjust = 1),
               text = element_text(size = 18),
+              legend.position = "top"
             ) +
             scale_x_continuous(
               expand = expansion(mult = 0, add = c(0,1)),

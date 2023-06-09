@@ -50,10 +50,7 @@ ui <- list(
       title = "Life Tables",
       titleWidth = 250,
       tags$li(class = "dropdown", actionLink("info", icon("info"))),
-      tags$li(
-        class = "dropdown",
-        boastUtils::surveyLink(name = "Life_Table")
-      ),
+      tags$li(class = "dropdown", boastUtils::surveyLink(name = "Life_Table")),
       tags$li(
         class = "dropdown",
         tags$a(href = "https://shinyapps.science.psu.edu/", icon("house")
@@ -85,10 +82,10 @@ ui <- list(
           tabName = "overview",
           h1("Life Tables"),
           p("In this app, you will explore various ways to visualize life tables
-            for 3 different countries", HTML("&mdash;"),"China, the United Kingdom, and the United
-            States of America. You'll be able to look at the several different
-            metrics associated with life tables (e.g., survival and fecundity
-            rates) by country and by sex."),
+            for 3 different countries", HTML("&mdash;"),"China, the United Kingdom,
+            and the United States of America. You'll be able to look at the several 
+            different metrics associated with life tables (e.g., survival and fecundity
+            rates) by country and sex."),
           h2("Instructions"),
           p("Use the left sidebar menu to explore the life tables."),
           tags$ul(
@@ -98,7 +95,7 @@ ui <- list(
             tags$li(tags$strong("Static Population Pyramids:"), " View and compare
                     Population Pyramids for different countries, as well as the
                     combination of sex and country."),
-            tags$li(tags$strong("Population Pyramids Through Time:"), " Click the start
+            tags$li(tags$strong("Time and Population Pyramaids:"), " Click the start
                     button to watch the population change by year in United
                     States and United Kingdom."),
             tags$li(tags$strong("Fecundity Rate:"), " Click the country you
@@ -108,7 +105,7 @@ ui <- list(
           div(
             style = "text-align:center;",
             bsButton(
-              inputId = "go",
+              inputId = "goToSR",
               label = "Survival Rate",
               icon = icon("bolt"),
               size = "large",
@@ -120,7 +117,7 @@ ui <- list(
           h2("Acknowledgements"),
           p("This app was developed and coded by Yuqing Lei in 2019 with the
             support of funding provided by Dr. Stephen Schaeffer. The app was
-            updated in 2021 by Dr. Neil J. Hatfield and was updated in 2022 by Jing Fu",
+            updated in 2021 by Dr. Neil J. Hatfield and was updated in 2022 by Jing Fu.",
             br(),
             br(),
             "Cite this app as:",
@@ -128,7 +125,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 11/17/2022 by JF.")
+            div(class = "updated", "Last Update: 6/9/2023 by TM.")
           )
         ),
         #### Survival Rate Page ----
@@ -383,12 +380,6 @@ ui <- list(
           ),
           p(
             class = "hangingindent",
-            "Oceanwide Expeditions. (n.d.) The Eight great penguin species of
-            Antarctica. [Blog post; title image] Available from
-            https://oceanwide-expeditions.com/blog/meet-all-6-antarctic-penguin-species"
-          ),
-          p(
-            class = "hangingindent",
             "Perrier, V., Meyer, F., and Granjon, D. (2021), shinyWidgets:
             Custom inputs widgets for shiny. (v. 0.6.0) [R Package] Available
             from https://CRAN.R-project.org/package=shinyWidgets"
@@ -410,6 +401,8 @@ ui <- list(
             A Grammar of Data Manipulation. (v. 1.0.7) [R Package] Available
             https://CRAN.R-project.org/package=dplyr"
           ),
+          br(),
+          br(),
           h3("Data Sources"),
           p("Data for this app was retrived from:"),
           tags$ul(
@@ -439,7 +432,6 @@ ui <- list(
           ),
           br(),
           br(),
-          br(),
           boastUtils::copyrightInfo()
         )
       )
@@ -465,7 +457,7 @@ server <- function(input, output, session) {
   
   ## Go Button ----
   observeEvent(
-    eventExpr = input$go,
+    eventExpr = input$goToSR,
     handlerExpr = {
       updateTabItems(
         session = session,
@@ -498,15 +490,11 @@ server <- function(input, output, session) {
                 color = country.sex,
                 linetype = country.sex)
             ) +
-            geom_line(
-              linewidth = 2
-            ) +
+            geom_line(linewidth = 2) +
             theme_bw() +
             ylab("Survival Rate") +
             xlab("Age (years)") +
-            labs(
-              title = "Survival Rates by Age for Country and Sex"
-            ) +
+            labs(title = "Survival Rates by Age for Country and Sex") +
             theme(
               text = element_text(size = 18),
               legend.position = "bottom"
@@ -550,9 +538,9 @@ server <- function(input, output, session) {
             geom_col(
               data = subset(popPyramid, countrySex == switch(
                 EXPR = input$upperCountry,
-                "China" = "China-Males",
-                "United Kingdom" = "UK-Males",
-                "United States" = "US-Males"
+                "China" = "China-Females",
+                "United Kingdom" = "UK-Females",
+                "United States" = "US-Females"
               )),
               mapping = aes(y = -1 * count),
               na.rm = TRUE
@@ -560,9 +548,9 @@ server <- function(input, output, session) {
             geom_col(
               data = subset(popPyramid, countrySex == switch(
                 EXPR = input$upperCountry,
-                "China" = "China-Females",
-                "United Kingdom" = "UK-Females",
-                "United States" = "US-Females"
+                "China" = "China-Males",
+                "United Kingdom" = "UK-Males",
+                "United States" = "US-Males"
               )),
               mapping = aes(y = count),
               na.rm = TRUE
@@ -571,9 +559,7 @@ server <- function(input, output, session) {
             theme_bw() +
             ylab("Percentage Alive") +
             xlab("Age (years)") +
-            labs(
-              fill = "Country & Sex"
-            ) +
+            labs(fill = "Country & Sex") +
             theme(
               text = element_text(size = 18),
               legend.position = "top"
@@ -590,9 +576,7 @@ server <- function(input, output, session) {
               breaks = seq.int(from = -100, to = 100, by = 25),
               labels = c(100, 75, 50, 25, 0, 25, 50, 75, 100)
             ) +
-            scale_fill_manual(
-              values = fixedColors
-            )
+            scale_fill_manual(values = fixedColors)
         },
         alt = paste("Population Pyramids of both genders for", input$upperCountry)
       )
@@ -622,7 +606,7 @@ server <- function(input, output, session) {
                 "United Kingdom" = "UK-Males",
                 "United States" = "US-Males"
               )),
-              mapping = aes(y = -1 * count),
+              mapping = aes(y = count),
               na.rm = TRUE
             ) +
             geom_col(
@@ -632,16 +616,14 @@ server <- function(input, output, session) {
                 "United Kingdom" = "UK-Females",
                 "United States" = "US-Females"
               )),
-              mapping = aes(y = count),
+              mapping = aes(y = -1 * count),
               na.rm = TRUE
             ) +
             coord_flip() +
             theme_bw() +
             ylab("Percentage Alive") +
             xlab("Age (years)") +
-            labs(
-              fill = "Country & Sex"
-            ) +
+            labs(fill = "Country & Sex") +
             theme(
               text = element_text(size = 18),
               legend.position = "bottom"
@@ -658,9 +640,7 @@ server <- function(input, output, session) {
               breaks = seq.int(from = -100, to = 100, by = 25),
               labels = c(100, 75, 50, 25, 0, 25, 50, 75, 100)
             ) +
-            scale_fill_manual(
-              values = fixedColors
-            )
+            scale_fill_manual(values = fixedColors)
         },
         alt = paste("Population Pyramids of both genders for", input$lowerCountry)
       )
@@ -721,9 +701,7 @@ server <- function(input, output, session) {
               breaks = seq.int(from = -100, to = 100, by = 25),
               labels = c(100, 75, 50, 25, 0, 25, 50, 75, 100)
             ) +
-            scale_fill_manual(
-              values = fixedColors
-            )
+            scale_fill_manual(values = fixedColors)
         },
         alt = paste("Population Pyramids for", input$cohortLeft, "and",
                     input$cohortRight)
@@ -775,8 +753,9 @@ server <- function(input, output, session) {
                   limits = c(-4e6, 4e6),
                   expand = expansion(mult = 0, add = 0),
                   breaks = seq.int(from = -4e6, to = 4e6, by = 5e5),
-                  labels = c("4mil","3.5mil","3mil","2.5mil", "2mil", "1.5mil", "1mil", "0.5mil", "0",
-                             "0.5mil", "1mil", "1.5mil", "2mil", "2.5mil","3mil","3.5mil","4mil")
+                  labels = c("4mil","3.5mil","3mil","2.5mil", "2mil", "1.5mil",
+                             "1mil", "0.5mil", "0", "0.5mil", "1mil", "1.5mil",
+                             "2mil", "2.5mil","3mil","3.5mil","4mil")
                 )
               }
           timePyrData() %>%
@@ -846,10 +825,7 @@ server <- function(input, output, session) {
                 linetype = country
               )
             ) +
-            geom_path(
-              linewidth = 2,
-              na.rm = TRUE
-            ) +
+            geom_path(linewidth = 2, na.rm = TRUE) +
             theme_bw() +
             xlab("Age (years)") +
             ylab("Number of births per 1000 women") +
@@ -866,12 +842,8 @@ server <- function(input, output, session) {
               expand = expansion(mult = c(0, 0.05), add = 0),
               limits = c(0, max(fertility$fertility))
             ) +
-            scale_color_manual(
-              values = countryColors
-            ) +
-            scale_linetype_manual(
-              values = countryLyt
-            ) +
+            scale_color_manual(values = countryColors) +
+            scale_linetype_manual(values = countryLyt) +
             theme(legend.key.size = unit(2,"cm"))
         },
         alt = "Fecundity rate per 1000 women for selected countries"

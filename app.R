@@ -746,9 +746,10 @@ server <- function(input, output, session) {
           scaley <- if (input$actualCountry == "United Kingdom") {
             scale_y_continuous(
               limits = c(-1e6, 1e6),
-              expand = expansion(mult = 0 , add = 0),
+              expand = expansion(mult = 0, add = 0),
               breaks = seq.int(from = -1e6, to = 1e6, by = 5e5),
-              labels = c("1mil", "0.5mil", "0", "0.5mil", "1mil"))}else{
+              labels = c("1mil", "0.5mil", "0", "0.5mil", "1mil"))
+            } else {
                 scale_y_continuous(
                   limits = c(-4e6, 4e6),
                   expand = expansion(mult = 0, add = 0),

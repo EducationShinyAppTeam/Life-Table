@@ -353,36 +353,36 @@ ui <- list(
         tabItem(
           tabName = "references",
           h2("References"),
-          p(
+          p( 
             class = "hangingindent",
-            "Bailey, E. (2015). shinyBS: Twitter bootstrap components for shiny.
-            (v0.61). [R package]. Available from
+            "Bailey, E. (2022). shinyBS: Twitter bootstrap components for shiny.
+            (v0.61.1). [R package]. Available from
             https://CRAN.R-project.org/package=shinyBS"
           ),
           p(
             class = "hangingindent",
-            "Carey, R. and Hatfield, N. (2021), boastUtils: BOAST Utilities.
-            (v. 0.1.10.4), [R Package] Available from
-            https://github.com/EducationShinyAppTeam/boastUtils"
+            "Carey, R. and Hatfield., N. J. (2023). boastUtils: BOAST utilities.
+            (v0.1.11.2). [R Package]. Available from
+            https://github.com/EducationShinyappTeam/boastUtils"
           ),
           p(
             class = "hangingindent",
-            "Chang, W., and Borges Ribeiro, B. (2018), shinydashboard: Create
-            dashboards with 'Shiny'.(v. 0.7.1) [R package] Available from
+            "Chang, W. and Borges Ribeio, B. (2021). shinydashboard: Create dashboards
+            with 'Shiny'. (v0.7.2). [R Package]. Available from
             https://CRAN.R-project.org/package=shinydashboard"
           ),
           p(
             class = "hangingindent",
-            "Chang, W., Cheng, J., Allaire, J. J., Sivert, C., Schloerke, B.,
-            Xie, Y., Allen, J., McPherson, J., Dipert, A., and Borges, B. (2021),
-            shiny: Web application framework for R. (v. 1.6.0) [R package]
+            "Chang, W., Cheng, J., Allaire, J.J., Sievert, C., Schloerke, B.,
+            Xie, Y., Allen, J., McPherson, J., Dipert, A., and Borges, B. (2022).
+            shiny: Web application framework for R. (v1.7.4). [R Package].
             Available from https://CRAN.R-project.org/package=shiny"
           ),
           p(
             class = "hangingindent",
-            "Perrier, V., Meyer, F., and Granjon, D. (2021), shinyWidgets:
-            Custom inputs widgets for shiny. (v. 0.6.0) [R Package] Available
-            from https://CRAN.R-project.org/package=shinyWidgets"
+            "Perrier, V., Meyer, F., and Granjon, D. (2023). shinyWidgets: Custom
+            inputs widgets for shiny. (v0.7.6). [R Package]. Availble from
+            https://CRAN.R-project.org/package=shinyWidgets"
           ),
           p(
             class = "hangingindent",
@@ -393,13 +393,14 @@ ui <- list(
           p(
             class = "hangingindent",
             "Wickham, H. (2016). ggplot2: Elegant graphics for data analysis.
-            Springer-Verlag:New York."
+            (v3.4.2). [R Package]. New York:Springer-Verlag. Available from
+            https://ggplot2.tidyverse.org"
           ),
           p(
             class = "hangingindent",
-            "Wickham, H., François, R., Henry, L., and Müller, K. (2021). dplyr:
-            A Grammar of Data Manipulation. (v. 1.0.7) [R Package] Available
-            https://CRAN.R-project.org/package=dplyr"
+            "Wickham, H., François, R., Henry, L., Müller, K., and Vaughan, D.
+            (2023). dplyr: A grammar of data manipulation. (v1.1.2). [R Package].
+            Available from https://CRAN.R-project.org/package=dplyr"
           ),
           br(),
           br(),

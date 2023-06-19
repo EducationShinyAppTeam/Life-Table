@@ -448,7 +448,7 @@ server <- function(input, output, session) {
     handlerExpr = {
       sendSweetAlert(
         session = session,
-        title = "Instructions",
+        title = "Information",
         type = "info",
         text = "Click through each tab on the left to view the survival rates, 
         population pyramids, and the fecundity rates of three different countries."

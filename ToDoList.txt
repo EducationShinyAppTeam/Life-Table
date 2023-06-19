@@ -1,6 +1,4 @@
 # Things Needed for This Version
-1. Time and Pop Pyramaid: x axis labels, legend
-2. Should a pre req be made of the titles of each tab or be kept the same? 
-3. Fecundity Colors
+1. 
 
 # Ideas for Future Development

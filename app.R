@@ -83,7 +83,7 @@ ui <- list(
           h1("Life Tables"),
           p("In this app, you will explore various ways to visualize life tables
             for 3 different countries", HTML("&mdash;"),"China, the United Kingdom,
-            and the United States of America. You'll be able to look at the several 
+            and the United States of America. You'll be able to look at several 
             different metrics associated with life tables (e.g., survival and fecundity
             rates) by country and sex."),
           h2("Instructions"),
@@ -125,7 +125,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/9/2023 by TM.")
+            div(class = "updated", "Last Update: 6/23/2023 by TM.")
           )
         ),
         #### Survival Rate Page ----

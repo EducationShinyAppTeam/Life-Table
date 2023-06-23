@@ -5,7 +5,9 @@ Lifecycle: experimental
 Authors@R: c(
     person(given = "Yuqing", family = "Lei", role = c("aut", "cre")),
     person(given = "Neil", family = "Hatfield", email = "neil.hatfield@psu.edu", role = c("aut")),
-    person(given = "Stephen", family = "Schaeffer", role = c("fnd"))
+    person(given = "Stephen", family = "Schaeffer", role = c("fnd")),
+    person(given = "Taryn", family = "McHugh", role = c("ctb")
+    )
   )
 Chapter: Biology
 Description: In this app, you will explore various Life Tables for three different countries.

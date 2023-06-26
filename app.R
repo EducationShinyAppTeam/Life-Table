@@ -117,7 +117,8 @@ ui <- list(
           h2("Acknowledgements"),
           p("This app was developed and coded by Yuqing Lei in 2019 with the
             support of funding provided by Dr. Stephen Schaeffer. The app was
-            updated in 2021 by Dr. Neil J. Hatfield and was updated in 2022 by Jing Fu.",
+            updated in 2021 by Dr. Neil J. Hatfield, updated in 2022 by Jing Fu, 
+            and updated in 2023 by Taryn McHugh.",
             br(),
             br(),
             "Cite this app as:",
@@ -125,7 +126,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/23/2023 by TM.")
+            div(class = "updated", "Last Update: 6/25/2023 by TM.")
           )
         ),
         #### Survival Rate Page ----

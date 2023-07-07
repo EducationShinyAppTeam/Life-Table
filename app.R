@@ -45,7 +45,7 @@ fixedLines <- c(
 ui <- list(
   dashboardPage(
     skin = "green",
-    ### Header ----
+    ## Header ----
     dashboardHeader(
       title = "Life Tables",
       titleWidth = 250,
@@ -53,11 +53,10 @@ ui <- list(
       tags$li(class = "dropdown", boastUtils::surveyLink(name = "Life_Table")),
       tags$li(
         class = "dropdown",
-        tags$a(href = "https://shinyapps.science.psu.edu/", icon("house")
-        )
+        tags$a(href = "https://shinyapps.science.psu.edu/", icon("house"))
       )
     ),
-    ### Sidebar ----
+    ## Sidebar ----
     dashboardSidebar(
       width = 250,
       sidebarMenu(
@@ -74,10 +73,10 @@ ui <- list(
         boastUtils::sidebarFooter()
       )
     ),
-    ### Body ----
+    ## Body ----
     dashboardBody(
       tabItems(
-        #### Overview Page ----
+        ### Overview Page ----
         tabItem(
           tabName = "overview",
           h1("Life Tables"),
@@ -129,7 +128,7 @@ ui <- list(
             div(class = "updated", "Last Update: 6/25/2023 by TM.")
           )
         ),
-        #### Survival Rate Page ----
+        ### Survival Rate Page ----
         tabItem(
           tabName = "survivalRate",
           h2("Survival Rate"),
@@ -168,7 +167,7 @@ ui <- list(
             )
           )
         ),
-        #### Static Pyramid Page----
+        ### Static Pyramid Page----
         tabItem(
           tabName = "staticPyr",
           h2("Static Population Pyramids"),
@@ -178,7 +177,7 @@ ui <- list(
           tabsetPanel(
             id = "cohortPyramid",
             type = "tabs",
-            ##### Country to Country ----
+            #### Country to Country ----
             tabPanel(
               title = "Country to Country",
               br(),
@@ -220,7 +219,7 @@ ui <- list(
                 )
               )
             ),
-            ##### Country & Sex ----
+            #### Country & Sex ----
             tabPanel(
               title = "Country & Sex Comparisons",
               br(),
@@ -316,7 +315,7 @@ ui <- list(
             )
           )
         ),
-        #### Fecundity Rate Page ----
+        ### Fecundity Rate Page ----
         tabItem(
           tabName = "fecundityRate",
           h2("Fecundity Rate"),
@@ -350,7 +349,7 @@ ui <- list(
             )
           )
         ),
-        #### References ----
+        ### References ----
         tabItem(
           tabName = "references",
           h2("References"),
@@ -387,8 +386,8 @@ ui <- list(
           ),
           p(
             class = "hangingindent",
-            "Sali, A., and Attali, D. (2020), shinycssloaders: Add Loading
-            Animations to a 'shiny' Ouput While It's Recalculating. (v. 1.0.0)
+            "Sali, A., and Attali, D. (2020), shinycssloaders: Add loading
+            animations to a 'shiny' ouput while it's recalculating. (v. 1.0.0)
             [R Package] Available https://CRAN.R-project.org/package=shinycssloaders"
           ),
           p(
@@ -490,7 +489,8 @@ server <- function(input, output, session) {
                 x = age,
                 y = survival,
                 color = country.sex,
-                linetype = country.sex)
+                linetype = country.sex
+              )
             ) +
             geom_line(linewidth = 2) +
             theme_bw() +
@@ -720,7 +720,7 @@ server <- function(input, output, session) {
         usTimePyramid
       } else {
         ## wrong column name
-        ukTimePyramid <- rename(ukTimePyramid, female = male,male = female)
+        ukTimePyramid <- rename(ukTimePyramid, female = male, male = female)
       }
     }
   )
@@ -798,7 +798,7 @@ server <- function(input, output, session) {
             ) +
             scaley
         },
-        alt = paste(input$actualCountry, "Population Pyramid for", input$timeInterval)
+        alt = paste(input$actualCountry, "Population Pyramid for", input$yearInterval)
       )
     }
   )

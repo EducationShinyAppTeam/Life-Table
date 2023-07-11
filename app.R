@@ -125,7 +125,7 @@ ui <- list(
             citeApp(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 6/25/2023 by TM.")
+            div(class = "updated", "Last Update: 7/11/2023 by TM.")
           )
         ),
         ### Survival Rate Page ----
@@ -413,14 +413,14 @@ ui <- list(
                 class = "bodylinks",
                 target = "_blank",
                 "https://www.cdc.gov/nchs/data/nvsr/nvsr67/nvsr67_07-508.pdf")
-            ),
+            ), # to update data go to https://www.cdc.gov/nchs/products/life_tables.htm
             tags$li(
               "United Kingdom: ", tags$a(
                 href = "https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/lifeexpectancies/datasets/nationallifetablesunitedkingdomreferencetables",
                 class = "bodylinks",
                 target = "_blank",
                 "https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/ lifeexpectancies/datasets/nationallifetablesunitedkingdomreferencetables"
-              )
+              ) # to update data go to https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/lifeexpectancies/datasets/nationallifetablesunitedkingdomreferencetables
             ),
             tags$li(
               "China: ", tags$a(
@@ -428,8 +428,9 @@ ui <- list(
                 class = "bodylinks",
                 target = "_blank",
                 "http://www.stats.gov.cn/english/"
-              )
-            ) #original link is broken: http://bxjg.circ.gov.cn/web/site0/tab5216/info4054990.htm
+              )  #original link is broken: http://bxjg.circ.gov.cn/web/site0/tab5216/info4054990.htm
+              # looks like data has not been updated recently or on an annual basis
+            ) 
           ),
           br(),
           br(),

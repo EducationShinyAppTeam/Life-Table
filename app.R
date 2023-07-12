@@ -215,7 +215,9 @@ ui <- list(
                   offset = 0,
                   plotOutput("upperPyramid"),
                   br(),
-                  plotOutput("lowerPyramid")
+                  plotOutput("lowerPyramid"),
+                  p(tags$em("Note: "), "Interpret the oldest age group as being that
+                age or older.")
                 )
               )
             ),
@@ -264,9 +266,11 @@ ui <- list(
                   width = 8,
                   offset = 0,
                   plotOutput("pyramidCountrySex") %>%
-                    withSpinner(color = boastPalette[3])
+                    withSpinner(color = boastPalette[3]),
+                  p(tags$em("Note: "), "Interpret the oldest age group as being that
+                age or older.")
                 )
-              )
+              ),
             )
           )
         ),
@@ -279,7 +283,8 @@ ui <- list(
             large increases in the population as well as when a country might
             suffer from catastrophic loss of life."),
           p("Explore both population pyramids for the United Kingdom and the
-            United States. What do you notice? What might explain any big changes?"),
+            United States. What do you notice? People born after World War II are
+            often called 'Baby Boomers.' How is that group seen in the population pyramids over time?"),
           fluidRow(
             column(
               width = 4,
@@ -320,8 +325,8 @@ ui <- list(
           tabName = "fecundityRate",
           h2("Fecundity Rate"),
           p("A common metric for life tables is a country's fecundity rate.
-            A country's fecundity rate refers to the number of new children born
-            in a year. Here, we've shown each country's fecundity rate as the
+            A country's fecundity rate refers to the average number of children
+            born per woman. Here, we've shown each country's fecundity rate as the
             number of children born per 1,000 women plotted against the age of
             the mother"),
           p("How does the fecundity rate differ between each country? What might 
@@ -503,7 +508,7 @@ server <- function(input, output, session) {
               legend.position = "bottom"
             ) +
             scale_y_continuous(
-              expand = expansion(mult = c(0, 0.05), add = 0)
+              limits = c(0,NA)
             ) +
             scale_color_manual(
               name = "Country & Sex",
